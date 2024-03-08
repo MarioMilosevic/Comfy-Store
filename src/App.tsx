@@ -8,9 +8,9 @@ import LoadingSpinner from "./LoadingSpinner";
 
 function App() {
   const [initialData, setInitialData] = useState({
-    categories: [],
-    companies: [],
-    products: [],
+    initialCategories: [],
+    initialCompanies: [],
+    initialProducts: [],
   });
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -24,17 +24,15 @@ function App() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        const { dataCategories, dataCompanies } = data.meta;
-        const [...dataProducts] = data.data;
-        console.log(data.data);
+        const { categories, companies } = data.meta;
+        const [...products] = data.data;
         setInitialData((previous) => ({
           ...previous,
-          categories: dataCategories,
-          companies: dataCompanies,
-          products: dataProducts,
+          initialCategories: categories,
+          initialCompanies: companies,
+          initialProducts: products,
         }));
-        setIsLoaded(true);
-        console.log(initialData.categories);
+         setIsLoaded(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -42,23 +40,26 @@ function App() {
     fetchData();
   }, []);
 
+  if (!isLoaded) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <>
-      {!isLoaded && <LoadingSpinner />}
       {isLoaded && (
         <>
           <SignIn />
           <Navigation />
           <Wrapper>
             <Form
-              categories={initialData.categories}
-              companies={initialData.companies}
+              categories={initialData.initialCategories}
+              companies={initialData.initialCompanies}
             />
             <div className="border-b py-4 text-sm mb-10">
               <p>22 Products</p>
             </div>
             <section className="py-4 grid grid-cols-3 gap-4">
-              {initialData.products.map((product) => {
+              {initialData.initialProducts.map((product) => {
                 const { image, title, price, id } = product.attributes;
                 return (
                   <Product key={id} image={image} title={title} price={price} />
