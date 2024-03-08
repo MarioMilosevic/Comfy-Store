@@ -7,10 +7,10 @@ import Product from "./components/Product";
 import LoadingSpinner from "./LoadingSpinner";
 
 function App() {
-  const [initialData, setInitialData] = useState({
-    initialCategories: [],
-    initialCompanies: [],
-    initialProducts: [],
+  const [store, setStore] = useState({
+    categories: [],
+    companies: [],
+    products: [],
   });
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -25,14 +25,11 @@ function App() {
         }
         const data = await response.json();
         const { categories, companies } = data.meta;
-        const [...products] = data.data;
-        setInitialData((previous) => ({
-          ...previous,
-          initialCategories: categories,
-          initialCompanies: companies,
-          initialProducts: products,
-        }));
-         setIsLoaded(true);
+        const products = data.data;
+
+        setStore({ categories, companies, products });
+
+        setIsLoaded(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -52,14 +49,14 @@ function App() {
           <Navigation />
           <Wrapper>
             <Form
-              categories={initialData.initialCategories}
-              companies={initialData.initialCompanies}
+              categories={store.categories}
+              companies={store.companies}
             />
             <div className="border-b py-4 text-sm mb-10">
               <p>22 Products</p>
             </div>
             <section className="py-4 grid grid-cols-3 gap-4">
-              {initialData.initialProducts.map((product) => {
+              {store.products.map((product) => {
                 const { image, title, price, id } = product.attributes;
                 return (
                   <Product key={id} image={image} title={title} price={price} />
