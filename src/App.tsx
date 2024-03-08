@@ -57,7 +57,8 @@ function App() {
             </div>
             <section className="py-4 grid grid-cols-3 gap-4">
               {store.products.map((product) => {
-                const { image, title, price, id } = product.attributes;
+                const {attributes} = product
+                const { image, title, price, id } = attributes;
                 return (
                   <Product key={id} image={image} title={title} price={price} />
                 );

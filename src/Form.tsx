@@ -1,6 +1,10 @@
 import Select from "./components/Select";
 import Button from "./components/Button";
+import { useState } from "react";
+
 const SearchBar = ({ categories, companies }) => {
+
+
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">
       <div className="grid grid-cols-4 gap-4 rounded-lg ">
@@ -19,10 +23,10 @@ const SearchBar = ({ categories, companies }) => {
           <label className="text-xs" htmlFor="category">
             Select Category
           </label>
-          <Select>
+          <Select defaultValue={'all'}>
             {categories.map((el, index) => {
               return (
-                <option key={index} value="el">
+                <option key={index} value={el}>
                   {el}
                 </option>
               );
@@ -34,10 +38,10 @@ const SearchBar = ({ categories, companies }) => {
           <label className="text-xs" htmlFor="category">
             Select Company
           </label>
-          <Select>
+          <Select defaultValue={"all"}>
             {companies.map((el, index) => {
               return (
-                <option key={index} value="el">
+                <option key={index} value={el}>
                   {el}
                 </option>
               );
@@ -49,7 +53,7 @@ const SearchBar = ({ categories, companies }) => {
           <label className="text-xs" htmlFor="category">
             Sort By
           </label>
-          <Select>
+          <Select defaultValue={"a-z"}>
             <option value="a-z">a-z</option>
             <option value="z-a">z-a</option>
             <option value="high">high</option>
@@ -69,7 +73,7 @@ const SearchBar = ({ categories, companies }) => {
             step="10"
             value="1000"
             className="h-[20px]"
-            onChange={() => console.log('promjena')}
+            onChange={() => console.log("promjena")}
           />
           <div className="flex justify-between">
             <span>0</span>
