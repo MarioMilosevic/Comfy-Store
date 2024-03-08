@@ -1,11 +1,8 @@
-import { useEffect } from "react";
 import Select from "./components/Select";
 import Button from "./components/Button";
 const SearchBar = ({ categories, companies }) => {
-  console.log(companies);
-  console.log(categories);
   return (
-    <section className="w-[57%] mx-auto my-20 bg-indigo-100 p-6 rounded-lg">
+    <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">
       <div className="grid grid-cols-4 gap-4 rounded-lg ">
         <div className="flex flex-col">
           <label className="text-xs" htmlFor="product">
@@ -72,6 +69,7 @@ const SearchBar = ({ categories, companies }) => {
             step="10"
             value="1000"
             className="h-[20px]"
+            onChange={() => console.log('promjena')}
           />
           <div className="flex justify-between">
             <span>0</span>
