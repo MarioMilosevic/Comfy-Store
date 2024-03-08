@@ -4,12 +4,16 @@ import Wrapper from "./components/Wrapper";
 import Navigation from "./components/Navigation";
 import Form from "./Form";
 import Product from "./components/Product";
+import LoadingSpinner from "./LoadingSpinner";
 
 function App() {
-  const [initialData, setInitialData] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [companies, setCompanies] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [initialData, setInitialData] = useState({
+    categories: [],
+    companies: [],
+    products: [],
+  });
+  const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,12 +24,17 @@ function App() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        const { dataCategories, dataCompanies } = data.meta;
+        const [...dataProducts] = data.data;
         console.log(data.data);
-        const {categories, companies} = data.meta
-        setInitialData(data);
-        setCategories(categories);
-        setCompanies(companies);
-        setProducts(data.data);
+        setInitialData((previous) => ({
+          ...previous,
+          categories: dataCategories,
+          companies: dataCompanies,
+          products: dataProducts,
+        }));
+        setIsLoaded(true);
+        console.log(initialData.categories);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -35,23 +44,30 @@ function App() {
 
   return (
     <>
-      <SignIn />
-      <Navigation />
-      <Wrapper>
-        <Form categories={categories} companies={companies} />
-        <div className="border-b py-4 text-sm mb-10">
-          <p>22 Products</p>
-        </div>
-        <section className="py-4 grid grid-cols-3 gap-4">
-          {products.map((product) => {
-            console.log(product);
-            const { image, title, price, id } = product.attributes;
-            return (
-              <Product key={id} image={image} title={title} price={price} />
-            );
-          })}
-        </section>
-      </Wrapper>
+      {!isLoaded && <LoadingSpinner />}
+      {isLoaded && (
+        <>
+          <SignIn />
+          <Navigation />
+          <Wrapper>
+            <Form
+              categories={initialData.categories}
+              companies={initialData.companies}
+            />
+            <div className="border-b py-4 text-sm mb-10">
+              <p>22 Products</p>
+            </div>
+            <section className="py-4 grid grid-cols-3 gap-4">
+              {initialData.products.map((product) => {
+                const { image, title, price, id } = product.attributes;
+                return (
+                  <Product key={id} image={image} title={title} price={price} />
+                );
+              })}
+            </section>
+          </Wrapper>
+        </>
+      )}
     </>
   );
 }
