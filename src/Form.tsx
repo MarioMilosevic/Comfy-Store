@@ -3,12 +3,51 @@ import Button from "./components/Button";
 import { useState } from "react";
 
 const SearchBar = ({ categories, companies }) => {
-  const [product, setProduct] = useState("");
-  const [range, setRange] = useState(1000);
-
+  const [search, setSearch] = useState({
+    product:'',
+    range: "1000",
+    isChecked: false, 
+    category: "all",
+    company: "all",
+    sort: 'a-z'
+  })
   const rangeHandler = (e) => {
-    setRange(e.target.value);
+      setSearch((prev) => {
+        return {...prev, range:e.target.value}
+      })
   };
+
+  const isCheckedHandler = () => {
+    setSearch((prev)=> {
+      return {...prev, isChecked: !prev.isChecked}
+    })
+  }
+
+    const productHandler = (e) => {
+      setSearch((prev)=> {
+        return {...prev, product:e.target.value}
+      })
+    }
+
+    const categoryHandler = (e) => {
+      setSearch((prev) => {
+        return {...prev, category:e.target.value}
+      })
+    }
+
+    const companyHandler = (e) => {
+      setSearch((prev) => {
+        return {...prev, company:e.target.value}
+      })
+    }
+
+    const sortHandler = (e) => {
+      setSearch((prev) => {
+        return {...prev, sort:e.target.value}
+      })
+    }
+
+  // PROSLIJEDIM U URL SVAKI
 
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">
@@ -21,7 +60,7 @@ const SearchBar = ({ categories, companies }) => {
             id="product"
             className="rounded-lg px-2 py-1 text-xs  mt-2"
             type="text"
-            onChange={(e) => setProduct(e.target.value)}
+            onChange={productHandler}
           />
         </div>
 
@@ -29,7 +68,7 @@ const SearchBar = ({ categories, companies }) => {
           <label className="text-xs" htmlFor="category">
             Select Category
           </label>
-          <Select defaultValue={"all"}>
+          <Select defaultValue={search.category} selectHandler={categoryHandler}>
             {categories.map((el, index) => {
               return (
                 <option key={index} value={el}>
@@ -44,7 +83,7 @@ const SearchBar = ({ categories, companies }) => {
           <label className="text-xs" htmlFor="category">
             Select Company
           </label>
-          <Select defaultValue={"all"}>
+          <Select defaultValue={search.company} selectHandler={companyHandler}>
             {companies.map((el, index) => {
               return (
                 <option key={index} value={el}>
@@ -59,7 +98,7 @@ const SearchBar = ({ categories, companies }) => {
           <label className="text-xs" htmlFor="category">
             Sort By
           </label>
-          <Select defaultValue={"a-z"}>
+          <Select defaultValue={search.sort} selectHandler={sortHandler}>
             <option value="a-z">a-z</option>
             <option value="z-a">z-a</option>
             <option value="high">high</option>
@@ -77,7 +116,7 @@ const SearchBar = ({ categories, companies }) => {
             min="0"
             max="1000"
             step="10"
-            value={range}
+            value={search.range}
             className="h-[20px]"
             onChange={rangeHandler}
           />
@@ -92,11 +131,13 @@ const SearchBar = ({ categories, companies }) => {
           <input
             id="link-checkbox"
             type="checkbox"
+            checked={search.isChecked}
+            onChange={isCheckedHandler}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2"
           ></input>
         </div>
-        <Button color={"blue"}>Search</Button>
-        <Button color={"pink"}>Reset</Button>
+        <Button color={"bg-blue-600"}>Search</Button>
+        <Button color={"bg-pink-600"}>Reset</Button>
       </div>
     </section>
   );

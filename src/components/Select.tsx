@@ -1,9 +1,6 @@
-import { useState } from "react";
-const Select = ({children, defaultValue }) => {
-  const [value, setValue] = useState('')
-
+const Select = ({children, defaultValue, selectHandler }) => {
     return (
-      <select className="rounded-lg px-2 py-1 text-xs mt-2" defaultValue={defaultValue} onChange={(e) => setValue(e.target.value)} >
+      <select className="rounded-lg px-2 py-1 text-xs mt-2" defaultValue={defaultValue} onChange={selectHandler} >
        {children}
       </select>
     );

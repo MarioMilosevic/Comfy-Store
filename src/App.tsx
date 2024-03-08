@@ -17,10 +17,7 @@ function App() {
     "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
   );
 
-    const urlHandler = () => {
-      
-    }
-
+  const urlHandler = () => {};
 
   useEffect(() => {
     const fetchData = async () => {
