@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Select from "./components/Select";
+import Button from "./components/Button";
 const SearchBar = ({ categories, companies }) => {
   console.log(companies);
   console.log(categories);
@@ -33,7 +34,7 @@ const SearchBar = ({ categories, companies }) => {
         </div>
 
         <div className="flex flex-col">
-        <label className="text-xs" htmlFor="category">
+          <label className="text-xs" htmlFor="category">
             Select Company
           </label>
           <Select>
@@ -48,33 +49,46 @@ const SearchBar = ({ categories, companies }) => {
         </div>
 
         <div className="flex flex-col">
-        <label className="text-xs" htmlFor="category">
+          <label className="text-xs" htmlFor="category">
             Sort By
           </label>
           <Select>
-           <option value="a-z">a-z</option>
-           <option value="z-a">z-a</option>
-           <option value="high">high</option>
-           <option value="low">low</option>
+            <option value="a-z">a-z</option>
+            <option value="z-a">z-a</option>
+            <option value="high">high</option>
+            <option value="low">low</option>
           </Select>
         </div>
 
         <div className="flex flex-col gap-2 text-xs mt-2">
           <div className="flex justify-between ">
-          <label htmlFor="range">Select Price</label>
-          <span>$ 1,000.00</span>
+            <label htmlFor="range">Select Price</label>
+            <span>$ 1,000.00</span>
           </div>
-          <input type="range" min="0" max="1000" step="10" value="1000" className="h-[20px]"/>
+          <input
+            type="range"
+            min="0"
+            max="1000"
+            step="10"
+            value="1000"
+            className="h-[20px]"
+          />
           <div className="flex justify-between">
             <span>0</span>
-            <span>Max: $1,000.00</span>
+            <span className="font-semibold">Max: $1,000.00</span>
           </div>
         </div>
 
         <div className="flex flex-col justify-center items-center gap-3 text-xs mt-2">
-        <p>Free Shipping</p>
-        <input id="link-checkbox" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"></input>
+          <p>Free Shipping</p>
+          <input
+            id="link-checkbox"
+            type="checkbox"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2"
+          ></input>
         </div>
+        <Button color={"blue"}>Search</Button>
+        <Button color={"pink"}>Reset</Button>
       </div>
     </section>
   );
