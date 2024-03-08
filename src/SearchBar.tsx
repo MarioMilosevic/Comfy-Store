@@ -4,8 +4,8 @@ const SearchBar = ({ categories, companies }) => {
   console.log(companies);
   console.log(categories);
   return (
-    <section className="w-[57%] mx-auto my-20 bg-indigo-100 p-4 rounded-lg">
-      <div className="flex gap-4 justify-between rounded-lg ">
+    <section className="w-[57%] mx-auto my-20 bg-indigo-100 p-6 rounded-lg">
+      <div className="grid grid-cols-4 gap-4 rounded-lg ">
         <div className="flex flex-col">
           <label className="text-xs" htmlFor="product">
             Search Product
@@ -45,7 +45,6 @@ const SearchBar = ({ categories, companies }) => {
               );
             })}
           </Select>
-
         </div>
 
         <div className="flex flex-col">
@@ -58,6 +57,18 @@ const SearchBar = ({ categories, companies }) => {
            <option value="high">high</option>
            <option value="low">low</option>
           </Select>
+        </div>
+
+        <div className="flex flex-col border border-black text-xs">
+          <div className="flex justify-between ">
+          <label htmlFor="range">Select Price</label>
+          <span>$ 1,000.00</span>
+          </div>
+          <input type="range" min="0" max="1000" step="10" value="1000"/>
+          <div className="flex justify-between">
+            <span>0</span>
+            <span>Max: $1,000.00</span>
+          </div>
         </div>
       </div>
     </section>
