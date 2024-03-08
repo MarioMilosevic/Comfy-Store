@@ -13,13 +13,19 @@ function App() {
     products: [],
   });
   const [isLoaded, setIsLoaded] = useState(false);
+  const [url, setUrl] = useState(
+    "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
+  );
+
+    const urlHandler = () => {
+      
+    }
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
-        );
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -48,16 +54,13 @@ function App() {
           <SignIn />
           <Navigation />
           <Wrapper>
-            <Form
-              categories={store.categories}
-              companies={store.companies}
-            />
+            <Form categories={store.categories} companies={store.companies} />
             <div className="border-b py-4 text-sm mb-10">
               <p>22 Products</p>
             </div>
             <section className="py-4 grid grid-cols-3 gap-4">
               {store.products.map((product) => {
-                const {attributes} = product
+                const { attributes } = product;
                 const { image, title, price, id } = attributes;
                 return (
                   <Product key={id} image={image} title={title} price={price} />

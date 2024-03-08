@@ -3,7 +3,12 @@ import Button from "./components/Button";
 import { useState } from "react";
 
 const SearchBar = ({ categories, companies }) => {
+  const [product, setProduct] = useState("");
+  const [range, setRange] = useState(1000);
 
+  const rangeHandler = (e) => {
+    setRange(e.target.value);
+  };
 
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">
@@ -16,6 +21,7 @@ const SearchBar = ({ categories, companies }) => {
             id="product"
             className="rounded-lg px-2 py-1 text-xs  mt-2"
             type="text"
+            onChange={(e) => setProduct(e.target.value)}
           />
         </div>
 
@@ -23,7 +29,7 @@ const SearchBar = ({ categories, companies }) => {
           <label className="text-xs" htmlFor="category">
             Select Category
           </label>
-          <Select defaultValue={'all'}>
+          <Select defaultValue={"all"}>
             {categories.map((el, index) => {
               return (
                 <option key={index} value={el}>
@@ -71,9 +77,9 @@ const SearchBar = ({ categories, companies }) => {
             min="0"
             max="1000"
             step="10"
-            value="1000"
+            value={range}
             className="h-[20px]"
-            onChange={() => console.log("promjena")}
+            onChange={rangeHandler}
           />
           <div className="flex justify-between">
             <span>0</span>
