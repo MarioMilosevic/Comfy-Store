@@ -1,4 +1,3 @@
-// https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=a-z&price=100000
 import { useEffect, useState } from "react";
 import SignIn from "./components/SignIn";
 import Navigation from "./components/Navigation";
@@ -6,6 +5,8 @@ import SearchBar from "./SearchBar";
 
 function App() {
   const [initialData, setInitialData] = useState([])
+  const [categories, setCategories] = useState([])
+  const [companies, setCompanies] = useState([])
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,8 +18,8 @@ function App() {
         }
         const data = await response.json();
         setInitialData(data)
-        console.log(data.data);
-        console.log(data.meta);
+        setCategories(data.meta.categories)
+        setCompanies(data.meta.companies)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -30,7 +31,7 @@ function App() {
     <>
       <SignIn />
       <Navigation />
-      <SearchBar data={initialData}/>
+      <SearchBar categories={categories} companies={companies}/>
     </>
   );
 }
