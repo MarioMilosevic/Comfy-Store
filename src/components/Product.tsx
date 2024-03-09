@@ -1,5 +1,4 @@
 const Product = ({ image, title, price }) => {
-  console.log(price);
   return (
     <div className="flex flex-col cursor-pointer items-center gap-8 shadow-md duration-200 h-[400px] p-2 rounded-lg hover:shadow-xl">
       <img

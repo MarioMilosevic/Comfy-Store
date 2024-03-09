@@ -5,6 +5,7 @@ import Navigation from "./components/Navigation";
 import Form from "./Form";
 import Product from "./components/Product";
 import LoadingSpinner from "./LoadingSpinner";
+import Pagination from "./components/Pagination";
 
 function App() {
   const [store, setStore] = useState({
@@ -26,15 +27,9 @@ function App() {
     sort,
   }) => {
     const shipping = isChecked ? "&shipping=on" : "";
-    console.log("product",product,"range",range,"isChecked",isChecked,"category",category,"company",company,"sort",sort)
+    // console.log("product",product,"range",range,"isChecked",isChecked,"category",category,"company",company,"sort",sort)
 
     const updatedUrl = `https://strapi-store-server.onrender.com/api/products${product}?search=${product}&category=${category}&company=${company}&order=${sort}&price=${range}${shipping}`;
-
-
-    const mario = "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
-    console.log(updatedUrl)
-    console.log(mario)
-
 
     setUrl(updatedUrl);
   };
@@ -47,6 +42,7 @@ function App() {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
+        console.log(data)
         const { categories, companies } = data.meta;
         const products = data.data;
 
@@ -88,6 +84,7 @@ function App() {
                 );
               })}
             </section>
+            <Pagination/>
           </Wrapper>
         </>
       )}
