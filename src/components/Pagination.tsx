@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import PageButton from "./PageButton";
+
 const Pagination = ({ urlPageHandler }) => {
   const [buttons, setButtons] = useState([
     { id: "1", name: 1, isActive: true },
@@ -13,25 +14,34 @@ const Pagination = ({ urlPageHandler }) => {
   }, [currentPage, urlPageHandler]);
 
   const activeHandler = (e) => {
-    const updatedButtons = buttons.map((button) =>
-      button.id === e.target.id
-        ? { ...button, isActive: true }
-        : { ...button, isActive: false }
-    );
-    setButtons(updatedButtons);
+    updateButtons(e.target.id);
     setCurrentPage(+e.target.id);
   };
 
   const previousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
+      const newPage = currentPage - 1;
+      updateButtons(newPage.toString());
+      setCurrentPage(newPage);
     }
   };
 
   const nextPage = () => {
     if (currentPage < buttons.length) {
-      setCurrentPage((prev) => prev + 1);
+      const newPage = currentPage + 1;
+      updateButtons(newPage.toString());
+      setCurrentPage(newPage);
     }
+  };
+
+
+  const updateButtons = (element) => {
+    setButtons((prevButtons) => {
+      return prevButtons.map((button) => ({
+        ...button,
+        isActive: button.id === element,
+      }));
+    });
   };
 
   return (
