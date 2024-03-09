@@ -2,7 +2,7 @@ import Select from "./components/Select";
 import Button from "./components/Button";
 import { useState } from "react";
 
-const SearchBar = ({ categories, companies }) => {
+const SearchBar = ({ categories, companies, urlHandler }) => {
   const [search, setSearch] = useState({
     product:'',
     range: "1000",
@@ -46,8 +46,6 @@ const SearchBar = ({ categories, companies }) => {
         return {...prev, sort:e.target.value}
       })
     }
-
-  // PROSLIJEDIM U URL SVAKI
 
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">

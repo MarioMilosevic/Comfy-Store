@@ -17,7 +17,13 @@ function App() {
     "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
   );
 
-  const urlHandler = () => {};
+  const urlHandler = ({ product  = "&", range, isChecked, category, company, sort }) => {
+    isChecked ? "&shipping=on" : undefined
+    const updatedUrl = `https://strapi-store-server.onrender.com/api/${product}?search=${product}category=${category}&company=${company}&order=${sort}&price=${range}${isChecked}`;
+
+    setUrl(updatedUrl)
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +44,7 @@ function App() {
       }
     };
     fetchData();
-  }, []);
+  }, [url]);
 
   if (!isLoaded) {
     return <LoadingSpinner />;
@@ -51,9 +57,9 @@ function App() {
           <SignIn />
           <Navigation />
           <Wrapper>
-            <Form categories={store.categories} companies={store.companies} />
+            <Form categories={store.categories} companies={store.companies} urlHandler={urlHandler}/>
             <div className="border-b py-4 text-sm mb-10">
-              <p>22 Products</p>
+              <p>{store.products.length} Products</p>
             </div>
             <section className="py-4 grid grid-cols-3 gap-4">
               {store.products.map((product) => {
