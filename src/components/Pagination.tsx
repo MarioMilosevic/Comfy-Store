@@ -1,20 +1,38 @@
 import { useState } from "react";
 import PageButton from "./PageButton";
 const Pagination = () => {
-  const [active, setActive] = useState();
-  const buttons = [
-    { name: "PREV", isActive: false },
-    { name: 1, isActive: true },
-    { name: 2, isActive: false },
-    { name: 3, isActive: false },
-    { name: "NEXT", isActive: false }
-  ];
+  const [buttons, setButtons] = useState([
+    { id: "PREV", name: "PREV", isActive: false },
+    { id: "2", name: 1, isActive: true },
+    { id: "3", name: 2, isActive: false },
+    { id: "4", name: 3, isActive: false },
+    { id: "NEXT", name: "NEXT", isActive: false },
+  ]);
+
+  const activeHandler = (e) => {
+    const updatedButtons = buttons.map((button) =>
+      button.id === e.target.id
+        ? { ...button, isActive: true }
+        : { ...button, isActive: false }
+    );
+    setButtons(updatedButtons);
+  };
+
   return (
     <>
       <div className="flex justify-end my-10">
-       {buttons.map((button, index) => {
-        return <PageButton key={index} isActive={button.isActive}>{button.name}</PageButton>
-       })}
+        {buttons.map((button) => {
+          return (
+            <PageButton
+              key={button.id}
+              id={button.id}
+              isActive={button.isActive}
+              activeHandler={activeHandler}
+            >
+              {button.name}
+            </PageButton>
+          );
+        })}
       </div>
     </>
   );
