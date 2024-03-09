@@ -12,10 +12,12 @@ function App() {
     categories: [],
     companies: [],
     products: [],
+    totalProducts: 0,
   });
   const [isLoaded, setIsLoaded] = useState(false);
+
   const [url, setUrl] = useState(
-    "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
+    "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=a-z&price=100000"
   );
 
   const urlHandler = ({
@@ -34,6 +36,11 @@ function App() {
     setUrl(updatedUrl);
   };
 
+  const urlPageHandler = (pageNumber) => {
+    const pageUrl = `https://strapi-store-server.onrender.com/api/products?page=${pageNumber}`;
+    setUrl(pageUrl);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,9 +50,10 @@ function App() {
         }
         const data = await response.json();
         const { categories, companies } = data.meta;
+        const totalProducts = data.meta.pagination.total;
         const products = data.data;
 
-        setStore({ categories, companies, products });
+        setStore({ categories, companies, products, totalProducts });
 
         setIsLoaded(true);
       } catch (error) {
@@ -72,7 +80,7 @@ function App() {
               urlHandler={urlHandler}
             />
             <div className="border-b py-4 text-sm mb-10">
-              <p>{store.products.length} Products</p>
+              <p>{store.totalProducts} Products</p>
             </div>
             <section className="py-4 grid grid-cols-3 gap-4">
               {store.products.map((product) => {
@@ -83,7 +91,7 @@ function App() {
                 );
               })}
             </section>
-            <Pagination/>
+            <Pagination urlPageHandler={urlPageHandler} />
           </Wrapper>
         </>
       )}

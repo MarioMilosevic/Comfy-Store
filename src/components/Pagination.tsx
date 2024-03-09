@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PageButton from "./PageButton";
-const Pagination = () => {
+const Pagination = ({ urlPageHandler }) => {
   const [buttons, setButtons] = useState([
-    { id: "PREV", name: "PREV", isActive: false },
-    { id: "2", name: 1, isActive: true },
-    { id: "3", name: 2, isActive: false },
-    { id: "4", name: 3, isActive: false },
-    { id: "NEXT", name: "NEXT", isActive: false },
+    { id: "1", name: 1, isActive: true },
+    { id: "2", name: 2, isActive: false },
+    { id: "3", name: 3, isActive: false },
   ]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    urlPageHandler(currentPage);
+  }, [currentPage, urlPageHandler]);
 
   const activeHandler = (e) => {
     const updatedButtons = buttons.map((button) =>
@@ -16,11 +19,25 @@ const Pagination = () => {
         : { ...button, isActive: false }
     );
     setButtons(updatedButtons);
+    setCurrentPage(+e.target.id);
+  };
+
+  const previousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage < buttons.length) {
+      setCurrentPage((prev) => prev + 1);
+    }
   };
 
   return (
     <>
       <div className="flex justify-end my-10">
+        <PageButton activeHandler={previousPage}>PREV</PageButton>
         {buttons.map((button) => {
           return (
             <PageButton
@@ -33,6 +50,7 @@ const Pagination = () => {
             </PageButton>
           );
         })}
+        <PageButton activeHandler={nextPage}>NEXT</PageButton>
       </div>
     </>
   );
