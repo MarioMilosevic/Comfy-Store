@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import PageButton from "./PageButton";
 
-const Pagination = ({ urlPageHandler }) => {
+type PaginationProps = {
+  urlPageHandler: (arg:number) => string;
+}
+
+const Pagination = ({ urlPageHandler }:PaginationProps) => {
   const [buttons, setButtons] = useState([
     { id: "1", name: 1, isActive: true },
     { id: "2", name: 2, isActive: false },
@@ -13,7 +17,7 @@ const Pagination = ({ urlPageHandler }) => {
     urlPageHandler(currentPage);
   }, [currentPage, urlPageHandler]);
 
-  const activeHandler = (e) => {
+  const activeHandler = (e:React.DOMAttributes<HTMLButtonElement>) => {
     updateButtons(e.target.id);
     setCurrentPage(+e.target.id);
   };

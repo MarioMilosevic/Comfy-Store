@@ -20,6 +20,15 @@ function App() {
     "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=a-z&price=100000"
   );
 
+  type UrlHandlerProps = {
+    product:string,
+    range:string,
+    isChecked:boolean,
+    category:string,
+    company:string,
+    sort:string
+  }
+
   const urlHandler = ({
     product,
     range,
@@ -27,16 +36,15 @@ function App() {
     category,
     company,
     sort,
-  }) => {
+  }:UrlHandlerProps) => {
     const shipping = isChecked ? "&shipping=on" : "";
-    // console.log("product",product,"range",range,"isChecked",isChecked,"category",category,"company",company,"sort",sort)
 
     const updatedUrl = `https://strapi-store-server.onrender.com/api/products${product}?search=${product}&category=${category}&company=${company}&order=${sort}&price=${range}${shipping}`;
 
     setUrl(updatedUrl);
   };
 
-  const urlPageHandler = (pageNumber) => {
+  const urlPageHandler = (pageNumber:string) => {
     const pageUrl = `https://strapi-store-server.onrender.com/api/products?page=${pageNumber}`;
     setUrl(pageUrl);
   };
