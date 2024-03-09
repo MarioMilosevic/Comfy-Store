@@ -17,13 +17,27 @@ function App() {
     "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
   );
 
-  const urlHandler = ({ product  = "&", range, isChecked, category, company, sort }) => {
-    isChecked ? "&shipping=on" : undefined
-    const updatedUrl = `https://strapi-store-server.onrender.com/api/${product}?search=${product}category=${category}&company=${company}&order=${sort}&price=${range}${isChecked}`;
+  const urlHandler = ({
+    product,
+    range,
+    isChecked,
+    category,
+    company,
+    sort,
+  }) => {
+    const shipping = isChecked ? "&shipping=on" : "";
+    console.log("product",product,"range",range,"isChecked",isChecked,"category",category,"company",company,"sort",sort)
 
-    setUrl(updatedUrl)
+    const updatedUrl = `https://strapi-store-server.onrender.com/api/products${product}?search=${product}&category=${category}&company=${company}&order=${sort}&price=${range}${shipping}`;
+
+
+    const mario = "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=high&price=100000"
+    console.log(updatedUrl)
+    console.log(mario)
+
+
+    setUrl(updatedUrl);
   };
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +71,11 @@ function App() {
           <SignIn />
           <Navigation />
           <Wrapper>
-            <Form categories={store.categories} companies={store.companies} urlHandler={urlHandler}/>
+            <Form
+              categories={store.categories}
+              companies={store.companies}
+              urlHandler={urlHandler}
+            />
             <div className="border-b py-4 text-sm mb-10">
               <p>{store.products.length} Products</p>
             </div>

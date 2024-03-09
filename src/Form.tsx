@@ -4,48 +4,48 @@ import { useState } from "react";
 
 const SearchBar = ({ categories, companies, urlHandler }) => {
   const [search, setSearch] = useState({
-    product:'',
-    range: "1000",
-    isChecked: false, 
+    product: "",
+    range: "100000",
+    isChecked: false,
     category: "all",
     company: "all",
-    sort: 'a-z'
-  })
+    sort: "a-z",
+  });
   const rangeHandler = (e) => {
-      setSearch((prev) => {
-        return {...prev, range:e.target.value}
-      })
+    setSearch((prev) => {
+      return { ...prev, range: e.target.value };
+    });
   };
 
   const isCheckedHandler = () => {
-    setSearch((prev)=> {
-      return {...prev, isChecked: !prev.isChecked}
-    })
-  }
+    setSearch((prev) => {
+      return { ...prev, isChecked: !prev.isChecked };
+    });
+  };
 
-    const productHandler = (e) => {
-      setSearch((prev)=> {
-        return {...prev, product:e.target.value}
-      })
-    }
+  const productHandler = (e) => {
+    setSearch((prev) => {
+      return { ...prev, product: e.target.value };
+    });
+  };
 
-    const categoryHandler = (e) => {
-      setSearch((prev) => {
-        return {...prev, category:e.target.value}
-      })
-    }
+  const categoryHandler = (e) => {
+    setSearch((prev) => {
+      return { ...prev, category: e.target.value };
+    });
+  };
 
-    const companyHandler = (e) => {
-      setSearch((prev) => {
-        return {...prev, company:e.target.value}
-      })
-    }
+  const companyHandler = (e) => {
+    setSearch((prev) => {
+      return { ...prev, company: e.target.value };
+    });
+  };
 
-    const sortHandler = (e) => {
-      setSearch((prev) => {
-        return {...prev, sort:e.target.value}
-      })
-    }
+  const sortHandler = (e) => {
+    setSearch((prev) => {
+      return { ...prev, sort: e.target.value };
+    });
+  };
 
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">
@@ -66,7 +66,10 @@ const SearchBar = ({ categories, companies, urlHandler }) => {
           <label className="text-xs" htmlFor="category">
             Select Category
           </label>
-          <Select defaultValue={search.category} selectHandler={categoryHandler}>
+          <Select
+            defaultValue={search.category}
+            selectHandler={categoryHandler}
+          >
             {categories.map((el, index) => {
               return (
                 <option key={index} value={el}>
@@ -107,13 +110,13 @@ const SearchBar = ({ categories, companies, urlHandler }) => {
         <div className="flex flex-col gap-2 text-xs mt-2">
           <div className="flex justify-between ">
             <label htmlFor="range">Select Price</label>
-            <span>$ 1,000.00</span>
+            <span>${(search.range / 100).toFixed(2)}</span>
           </div>
           <input
             type="range"
             min="0"
-            max="1000"
-            step="10"
+            max="100000"
+            step="100"
             value={search.range}
             className="h-[20px]"
             onChange={rangeHandler}
@@ -134,7 +137,9 @@ const SearchBar = ({ categories, companies, urlHandler }) => {
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2"
           ></input>
         </div>
-        <Button color={"bg-blue-600"}>Search</Button>
+        <Button color={"bg-blue-600"} clickHandler={() => urlHandler(search)}>
+          Search
+        </Button>
         <Button color={"bg-pink-600"}>Reset</Button>
       </div>
     </section>
