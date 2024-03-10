@@ -2,24 +2,12 @@ import Select from "./components/Select";
 import Button from "./components/Button";
 import { useState } from "react";
 
-type SearchBarProps = {
-  categories:string[],
-  companies:string,
-  urlHandler: () => void
-}
+const SearchBar = ({ params, paramsHandler, categories, companies }) => {
+  const [search, setSearch] = useState(params);
 
-const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
-  const [search, setSearch] = useState({
-    product: "",
-    range: "100000",
-    isChecked: false,
-    category: "all",
-    company: "all",
-    sort: "a-z",
-  });
-  const rangeHandler = (e) => {
+  const priceHandler = (e) => {
     setSearch((prev) => {
-      return { ...prev, range: e.target.value };
+      return { ...prev, price: e.target.value };
     });
   };
 
@@ -29,21 +17,24 @@ const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
     });
   };
 
-  const reset = () => {
-    setSearch({
-      product: "",
-      range: "100000",
-      isChecked: false,
-      category: "all",
-      company: "all",
-      sort: "a-z",
-    })
-    urlHandler(search)
-  }
+  // setSearch((prev) => {
+  //   return {...prev, price:5000}
+  // })
+  // const reset = () => {
+  //   setSearch({
+  //     product: "",
+  //     range: "100000",
+  //     isChecked: false,
+  //     category: "all",
+  //     company: "all",
+  //     sort: "a-z",
+  //   })
+  //   urlHandler(search)
+  // }
 
   const productHandler = (e) => {
     setSearch((prev) => {
-      return { ...prev, product: e.target.value };
+      return { ...prev, search: e.target.value };
     });
   };
 
@@ -65,6 +56,11 @@ const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
     });
   };
 
+  const mario =() => {
+    console.log("kliknuto")
+    paramsHandler(search)
+  }
+
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">
       <div className="grid grid-cols-4 gap-4 rounded-lg ">
@@ -84,10 +80,7 @@ const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
           <label className="text-xs" htmlFor="category">
             Select Category
           </label>
-          <Select
-            defaultValue={search.category}
-            selectHandler={categoryHandler}
-          >
+          <Select value={search.category} selectHandler={categoryHandler}>
             {categories.map((el, index) => {
               return (
                 <option key={index} value={el}>
@@ -102,7 +95,7 @@ const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
           <label className="text-xs" htmlFor="category">
             Select Company
           </label>
-          <Select defaultValue={search.company} selectHandler={companyHandler}>
+          <Select value={search.company} selectHandler={companyHandler}>
             {companies.map((el, index) => {
               return (
                 <option key={index} value={el}>
@@ -117,7 +110,7 @@ const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
           <label className="text-xs" htmlFor="category">
             Sort By
           </label>
-          <Select defaultValue={search.sort} selectHandler={sortHandler}>
+          <Select value={search.sort} selectHandler={sortHandler}>
             <option value="a-z">a-z</option>
             <option value="z-a">z-a</option>
             <option value="high">high</option>
@@ -128,16 +121,16 @@ const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
         <div className="flex flex-col gap-2 text-xs mt-2">
           <div className="flex justify-between ">
             <label htmlFor="range">Select Price</label>
-            <span>${(search.range / 100).toFixed(2)}</span>
+            <span>${(search.price / 100).toFixed(2)}</span>
           </div>
           <input
             type="range"
             min="0"
             max="100000"
             step="100"
-            value={search.range}
+            value={search.price}
             className="h-[20px]"
-            onChange={rangeHandler}
+            onChange={priceHandler}
           />
           <div className="flex justify-between">
             <span>0</span>
@@ -155,10 +148,13 @@ const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2"
           ></input>
         </div>
-        <Button color={"blue"} clickHandler={() => urlHandler(search)}>
+        <Button
+          color={"bg-blue-600"}
+          clickHandler={() => paramsHandler(search)}
+          >
           Search
         </Button>
-        <Button color={"pink"} clickHandler={reset}>Reset</Button>
+        <Button color={"bg-pink-600"}>Reset</Button>
       </div>
     </section>
   );

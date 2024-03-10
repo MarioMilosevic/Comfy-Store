@@ -20,17 +20,19 @@ function App() {
     search: "",
     category : "all",
     company : "all",
+    price:100000,
+    isChecked:false,
     sort: "a-z",
     page: 1
   });
 
 
-  const urlHandler = ({search,category, company, sort, page}) => {
-    const url = `${baseUrl}search=${search}&category=${category}&company=${company}&order=${sort}&price=100000&page=${page}`
+  const urlHandler = ({search,category, company, price,isChecked,sort, page}) => {
+   const shipping = isChecked ? "shipping=on" : "";
+    const url = `${baseUrl}search=${search}&category=${category}&company=${company}&order=${sort}&price=${price}&${shipping}page=${page}`
     return url
   }
 
-  
   
   // https://strapi-store-server.onrender.com/api/products?search=mario&category=all&company=all&order=a-z&price=83000&shipping=on
 
@@ -100,7 +102,7 @@ function App() {
       }
     };
     fetchData();
-  }, []);
+  }, [params]);
 
   if (!isLoaded) {
     return <LoadingSpinner />;
@@ -114,9 +116,10 @@ function App() {
           <Navigation />
           <Wrapper>
             <Form
+            params={params}
+            paramsHandler={setParams}
               categories={store.categories}
               companies={store.companies}
-              urlHandler={urlHandler}
             />
             <div className="border-b py-4 text-sm mb-10">
               <p>{store.totalProducts} Products</p>
@@ -130,7 +133,7 @@ function App() {
                 );
               })}
             </section>
-            <Pagination urlPageHandler={urlPageHandler} />
+            <Pagination />
           </Wrapper>
         </>
       )}
