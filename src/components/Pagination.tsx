@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
 import PageButton from "./PageButton";
 
-
-
-const Pagination = () => {
+const Pagination = ({ params, paramsHandler }) => {
   const [buttons, setButtons] = useState([
     { id: "1", name: 1, isActive: true },
     { id: "2", name: 2, isActive: false },
     { id: "3", name: 3, isActive: false },
   ]);
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const [currentPage, setCurrentPage] = useState(params.page);
+  console.log(currentPage);
+  console.log(paramsHandler);
 
   // useEffect(() => {
   //   urlPageHandler(currentPage);
   // }, [currentPage, urlPageHandler]);
 
-  const activeHandler = (e:React.DOMAttributes<HTMLButtonElement>) => {
+  const activeHandler = (e: React.DOMAttributes<HTMLButtonElement>) => {
     updateButtons(e.target.id);
     setCurrentPage(+e.target.id);
   };
@@ -24,7 +25,10 @@ const Pagination = () => {
     if (currentPage > 1) {
       const newPage = currentPage - 1;
       updateButtons(newPage.toString());
-      setCurrentPage(newPage);
+      setCurrentPage((previousPage) => previousPage - 1);
+      paramsHandler((previousPage) => {
+        return { ...previousPage, page: currentPage };
+      });
     }
   };
 
@@ -32,10 +36,12 @@ const Pagination = () => {
     if (currentPage < buttons.length) {
       const newPage = currentPage + 1;
       updateButtons(newPage.toString());
-      setCurrentPage(newPage);
+      setCurrentPage((previousPage) => previousPage + 1);
+      paramsHandler((previousPage) => {
+        return { ...previousPage, page: currentPage };
+      });
     }
   };
-
 
   const updateButtons = (element) => {
     setButtons((prevButtons) => {

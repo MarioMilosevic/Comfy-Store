@@ -3,6 +3,8 @@ import Button from "./components/Button";
 import { useState } from "react";
 
 const SearchBar = ({ params, paramsHandler, categories, companies }) => {
+
+  // nesto ako je 
   const [search, setSearch] = useState(params);
 
   const priceHandler = (e) => {
@@ -17,20 +19,6 @@ const SearchBar = ({ params, paramsHandler, categories, companies }) => {
     });
   };
 
-  // setSearch((prev) => {
-  //   return {...prev, price:5000}
-  // })
-  // const reset = () => {
-  //   setSearch({
-  //     product: "",
-  //     range: "100000",
-  //     isChecked: false,
-  //     category: "all",
-  //     company: "all",
-  //     sort: "a-z",
-  //   })
-  //   urlHandler(search)
-  // }
 
   const productHandler = (e) => {
     setSearch((prev) => {
@@ -56,10 +44,7 @@ const SearchBar = ({ params, paramsHandler, categories, companies }) => {
     });
   };
 
-  const mario =() => {
-    console.log("kliknuto")
-    paramsHandler(search)
-  }
+
 
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">

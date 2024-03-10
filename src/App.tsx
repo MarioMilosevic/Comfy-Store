@@ -26,61 +26,11 @@ function App() {
     page: 1
   });
 
-
   const urlHandler = ({search,category, company, price,isChecked,sort, page}) => {
    const shipping = isChecked ? "shipping=on" : "";
     const url = `${baseUrl}search=${search}&category=${category}&company=${company}&order=${sort}&price=${price}&${shipping}page=${page}`
     return url
   }
-
-  
-  // https://strapi-store-server.onrender.com/api/products?search=mario&category=all&company=all&order=a-z&price=83000&shipping=on
-
-
-  // const url ovaj samo do searcha pa onda u pagination napravim stejt, koji ce da se proslijedi iz ovog glavnog stejta pa ga tako apdejtujem
-
-  
-  // const url = ({search, category, company, sort}) => {
-  //   const baseUrl = `https://strapi-store-server.onrender.com/api/products?`;
-  //   if(search && category && company && sort) {
-  //     url = `${baseUrl}${search}${category}${company}${sort}`
-  //   }
-  // }
-
-  // const [url, setUrl] = useState(
-  // );
-
-// const url i stejt parametri, pa kada se promjene parametri da fecam koristeci te parametre unutar url-a
-
-
-  type UrlHandlerTypes = {
-    product: string;
-    range: string;
-    isChecked: boolean;
-    category: string;
-    company: string;
-    sort: string;
-  };
-
-  // const urlHandler = ({
-  //   product,
-  //   range,
-  //   isChecked,
-  //   category,
-  //   company,
-  //   sort,
-  // }: UrlHandlerTypes) => {
-  //   const shipping = isChecked ? "&shipping=on" : "";
-
-  //   const updatedUrl = `https://strapi-store-server.onrender.com/api/products${product}?search=${product}&category=${category}&company=${company}&order=${sort}&price=${range}${shipping}`;
-
-  //   // setUrl(updatedUrl);
-  // };
-
-  const urlPageHandler = (pageNumber: string) => {
-    const pageUrl = `https://strapi-store-server.onrender.com/api/products?page=${pageNumber}`;
-    // setUrl(pageUrl);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,7 +83,7 @@ function App() {
                 );
               })}
             </section>
-            <Pagination />
+            <Pagination params={params} paramsHandler={setParams}/>
           </Wrapper>
         </>
       )}
