@@ -26,12 +26,13 @@ function App() {
 
 
   const urlHandler = ({search,category, company, sort, page}) => {
-    const url = `${baseUrl}/search=${search}&category=${category}&company=${company}$order=${sort}&price=100000&page=${page}`
-    //   "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=a-z&price=100000&page=2"
-    // i to onda proslijedim u useEffect
+    const url = `${baseUrl}search=${search}&category=${category}&company=${company}&order=${sort}&price=100000&page=${page}`
     return url
   }
+
   
+  
+  // https://strapi-store-server.onrender.com/api/products?search=mario&category=all&company=all&order=a-z&price=83000&shipping=on
 
 
   // const url ovaj samo do searcha pa onda u pagination napravim stejt, koji ce da se proslijedi iz ovog glavnog stejta pa ga tako apdejtujem

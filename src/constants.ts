@@ -1,1 +1,1 @@
-export const baseUrl = `https://strapi-store-server.onrender.com/api/`;
+export const baseUrl = `https://strapi-store-server.onrender.com/api/products?`;
