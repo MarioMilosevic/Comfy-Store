@@ -8,50 +8,34 @@ const Pagination = ({ params, paramsHandler }) => {
     { id: 3, name: 3, isActive: false },
   ]);
 
-  const [currentPage, setCurrentPage] = useState(params.page);
-  console.log(currentPage);
   console.log(paramsHandler);
 
-  // useEffect(() => {
-  //   urlPageHandler(currentPage);
-  // }, [currentPage, urlPageHandler]);
-
   const activeHandler = (e: React.DOMAttributes<HTMLButtonElement>) => {
-    updateButtons(e.target.id);
+    setButtons((previousButtons) =>
+      previousButtons.map((button) => ({
+        ...button,
+        isActive: button.id === Number(e.target.id),
+      }))
+    );
     paramsHandler((previousPage) => {
-      return { ...previousPage, page: e.target.id };
+      return { ...previousPage, page: Number(e.target.id) };
     });
   };
 
   const previousPage = () => {
-    if (currentPage > 1) {
-      const newPage = currentPage - 1;
-      updateButtons(newPage.toString());
-      setCurrentPage((previousPage) => previousPage - 1);
+    if (params.page > 1) {
       paramsHandler((previousPage) => {
-        return { ...previousPage, page: currentPage };
+        return { ...previousPage, page: previousPage.page - 1 };
       });
     }
   };
 
   const nextPage = () => {
-    if (currentPage < buttons.length) {
-      const newPage = currentPage + 1;
-      updateButtons(newPage.toString());
-      setCurrentPage((previousPage) => previousPage + 1);
+    if (params.page < buttons.length) {
       paramsHandler((previousPage) => {
-        return { ...previousPage, page: currentPage };
+        return { ...previousPage, page: previousPage.page + 1 };
       });
     }
-  };
-
-  const updateButtons = (element) => {
-    setButtons((prevButtons) => {
-      return prevButtons.map((button) => ({
-        ...button,
-        isActive: button.id === element,
-      }));
-    });
   };
 
   return (

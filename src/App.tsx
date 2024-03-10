@@ -16,6 +16,7 @@ function App() {
   });
 
   const [isLoaded, setIsLoaded] = useState(false);
+  
   const [params, setParams] = useState({
     search: "",
     category : "all",
