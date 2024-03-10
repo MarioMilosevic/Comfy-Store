@@ -6,7 +6,7 @@ import Form from "./Form";
 import Product from "./components/Product";
 import LoadingSpinner from "./LoadingSpinner";
 import Pagination from "./components/Pagination";
-
+import { baseUrl } from "./constants";
 function App() {
   const [store, setStore] = useState({
     categories: [],
@@ -14,45 +14,75 @@ function App() {
     products: [],
     totalProducts: 0,
   });
+
   const [isLoaded, setIsLoaded] = useState(false);
+  const [params, setParams] = useState({
+    search: "",
+    category : "all",
+    company : "all",
+    sort: "a-z",
+    page: 1
+  });
 
-  const [url, setUrl] = useState(
-    "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=a-z&price=100000"
-  );
 
-  type UrlHandlerProps = {
-    product:string,
-    range:string,
-    isChecked:boolean,
-    category:string,
-    company:string,
-    sort:string
+  const urlHandler = ({search,category, company, sort, page}) => {
+    const url = `${baseUrl}/search=${search}&category=${category}&company=${company}$order=${sort}&price=100000&page=${page}`
+    //   "https://strapi-store-server.onrender.com/api/products?search=&category=all&company=all&order=a-z&price=100000&page=2"
+    // i to onda proslijedim u useEffect
+    return url
   }
+  
 
-  const urlHandler = ({
-    product,
-    range,
-    isChecked,
-    category,
-    company,
-    sort,
-  }:UrlHandlerProps) => {
-    const shipping = isChecked ? "&shipping=on" : "";
 
-    const updatedUrl = `https://strapi-store-server.onrender.com/api/products${product}?search=${product}&category=${category}&company=${company}&order=${sort}&price=${range}${shipping}`;
+  // const url ovaj samo do searcha pa onda u pagination napravim stejt, koji ce da se proslijedi iz ovog glavnog stejta pa ga tako apdejtujem
 
-    setUrl(updatedUrl);
+  
+  // const url = ({search, category, company, sort}) => {
+  //   const baseUrl = `https://strapi-store-server.onrender.com/api/products?`;
+  //   if(search && category && company && sort) {
+  //     url = `${baseUrl}${search}${category}${company}${sort}`
+  //   }
+  // }
+
+  // const [url, setUrl] = useState(
+  // );
+
+// const url i stejt parametri, pa kada se promjene parametri da fecam koristeci te parametre unutar url-a
+
+
+  type UrlHandlerTypes = {
+    product: string;
+    range: string;
+    isChecked: boolean;
+    category: string;
+    company: string;
+    sort: string;
   };
 
-  const urlPageHandler = (pageNumber:string) => {
+  // const urlHandler = ({
+  //   product,
+  //   range,
+  //   isChecked,
+  //   category,
+  //   company,
+  //   sort,
+  // }: UrlHandlerTypes) => {
+  //   const shipping = isChecked ? "&shipping=on" : "";
+
+  //   const updatedUrl = `https://strapi-store-server.onrender.com/api/products${product}?search=${product}&category=${category}&company=${company}&order=${sort}&price=${range}${shipping}`;
+
+  //   // setUrl(updatedUrl);
+  // };
+
+  const urlPageHandler = (pageNumber: string) => {
     const pageUrl = `https://strapi-store-server.onrender.com/api/products?page=${pageNumber}`;
-    setUrl(pageUrl);
+    // setUrl(pageUrl);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(urlHandler(params));
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -62,14 +92,14 @@ function App() {
         const products = data.data;
 
         setStore({ categories, companies, products, totalProducts });
-
+        console.log("execute");
         setIsLoaded(true);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [url]);
+  }, []);
 
   if (!isLoaded) {
     return <LoadingSpinner />;

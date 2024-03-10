@@ -2,7 +2,13 @@ import Select from "./components/Select";
 import Button from "./components/Button";
 import { useState } from "react";
 
-const SearchBar = ({ categories, companies, urlHandler }) => {
+type SearchBarProps = {
+  categories:string[],
+  companies:string,
+  urlHandler: () => void
+}
+
+const SearchBar = ({ categories, companies, urlHandler }:SearchBarProps) => {
   const [search, setSearch] = useState({
     product: "",
     range: "100000",
@@ -22,6 +28,18 @@ const SearchBar = ({ categories, companies, urlHandler }) => {
       return { ...prev, isChecked: !prev.isChecked };
     });
   };
+
+  const reset = () => {
+    setSearch({
+      product: "",
+      range: "100000",
+      isChecked: false,
+      category: "all",
+      company: "all",
+      sort: "a-z",
+    })
+    urlHandler(search)
+  }
 
   const productHandler = (e) => {
     setSearch((prev) => {
@@ -137,10 +155,10 @@ const SearchBar = ({ categories, companies, urlHandler }) => {
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 focus:ring-2"
           ></input>
         </div>
-        <Button color={"bg-blue-600"} clickHandler={() => urlHandler(search)}>
+        <Button color={"blue"} clickHandler={() => urlHandler(search)}>
           Search
         </Button>
-        <Button color={"bg-pink-600"}>Reset</Button>
+        <Button color={"pink"} clickHandler={reset}>Reset</Button>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 const Button = ({ color, children, clickHandler }) => {
   const baseClass =
     "w-full text-center p-2 uppercase tracking-wider text-indigo-50 rounded-lg";
-  const colorClass = `${color}`;
+  const colorClass = `bg-${color}-600`;
   return (
     <div className="flex flex-col justify-center items-center gap-3 text-xs mt-2">
       <button className={`${baseClass} ${colorClass}`} onClick={clickHandler}>
