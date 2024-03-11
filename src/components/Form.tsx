@@ -2,7 +2,8 @@ import Select from "./Select";
 import Button from "./Button";
 import { useState } from "react";
 
-const SearchBar = ({ params, setParams, categories, companies }) => {
+const Form = ({ setCurrentPage,params, setParams, categories, companies }) => {
+
   const [search, setSearch] = useState(params);
 
   const priceHandler = (e) => {
@@ -49,7 +50,7 @@ const SearchBar = ({ params, setParams, categories, companies }) => {
       price: 100000,
       isChecked: false,
       sort: "a-z",
-      page: 1,
+      // page: 1,
     });
     setSearch({
       search: "",
@@ -58,8 +59,9 @@ const SearchBar = ({ params, setParams, categories, companies }) => {
       price: 100000,
       isChecked: false,
       sort: "a-z",
-      page: 1,
+      // page: 1,
     });
+    setCurrentPage(1)
   };
 
   return (
@@ -134,7 +136,7 @@ const SearchBar = ({ params, setParams, categories, companies }) => {
             onChange={priceHandler}
           />
           <div className="flex justify-between">
-            <span>0</span>
+            <span>$0</span>
             <span className="font-semibold">Max: $1,000.00</span>
           </div>
         </div>
@@ -163,4 +165,4 @@ const SearchBar = ({ params, setParams, categories, companies }) => {
   );
 };
 
-export default SearchBar;
+export default Form;

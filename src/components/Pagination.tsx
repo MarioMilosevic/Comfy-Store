@@ -1,9 +1,7 @@
 import { useState } from "react";
-import PageButton from "./PageButton";
 
-const Pagination = ({ params, setParams }) => {
-
-  const [currentPage, setCurrentPage] = useState(params.page);
+const Pagination = ({currentPage, setCurrentPage, params, setParams }) => {
+  // const [currentPage, setCurrentPage] = useState(params.page);
   const buttons = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
   const setPage = (id) => {
@@ -14,7 +12,7 @@ const Pagination = ({ params, setParams }) => {
   };
 
   const previousPage = () => {
-    if (params.page > 1) {
+    if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1)
       setParams((prev) => {
         return {...prev, page:currentPage - 1}
@@ -41,6 +39,7 @@ const Pagination = ({ params, setParams }) => {
         {buttons.map((button) => {
           return (
             <button
+            key={button.id}
               className={`${button.id === currentPage ? `${activeButton} ${baseClass}` : `${baseClass} ${inactiveButton}`
               }`}
               onClick={() => setPage(button.id)}

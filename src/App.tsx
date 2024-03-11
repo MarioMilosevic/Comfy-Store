@@ -3,10 +3,11 @@ import SignIn from "./components/SignIn";
 import Wrapper from "./components/Wrapper";
 import Navigation from "./components/Navigation";
 import Form from "./components/Form";
-import Product from "./components/Product";
+import Products from "./components/Products";
 import LoadingSpinner from "./LoadingSpinner";
 import Pagination from "./components/Pagination";
 import { baseUrl } from "./constants";
+
 function App() {
   const [store, setStore] = useState({
     categories: [],
@@ -24,18 +25,33 @@ function App() {
     price: 100000,
     isChecked: false,
     sort: "a-z",
-    page: 1,
+    // page: 1,
   });
 
-  const urlHandler = ({
-    search,
-    category,
-    company,
-    price,
-    isChecked,
-    sort,
-    page,
-  }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  type UrlTypes = {
+    search: string;
+    category: string;
+    company: string;
+    price: string;
+    isChecked: boolean;
+    sort: string;
+    // page: number;
+  };
+
+  const urlHandler = (
+    {
+      search,
+      category,
+      company,
+      price,
+      isChecked,
+      sort,
+    }: // page,
+    UrlTypes,
+    page
+  ) => {
     const shipping = isChecked ? "shipping=on" : "";
     const url = `${baseUrl}search=${search}&category=${category}&company=${company}&order=${sort}&price=${price}&${shipping}page=${page}`;
     return url;
@@ -44,7 +60,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(urlHandler(params));
+        const response = await fetch(urlHandler(params, currentPage));
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -76,31 +92,20 @@ function App() {
           <Wrapper>
             <Form
               params={params}
-              paramsHandler={setParams}
+              setParams={setParams}
               categories={store.categories}
               companies={store.companies}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
-            <div className="border-b py-4 text-sm mb-10">
-              <p>{store.totalProducts} Products</p>
-            </div>
-            {store.totalProducts > 0 && (
-              <section className="py-4 grid grid-cols-3 gap-4">
-                {store.products.map((product) => {
-                  const { attributes } = product;
-                  const { image, title, price, id } = attributes;
-                  return (
-                    <Product
-                      key={id}
-                      image={image}
-                      title={title}
-                      price={price}
-                    />
-                  );
-                })}
-              </section>
-            )}
+            <Products store={store} />
             {store.totalProducts === 0 && <p>No products found</p>}
-            <Pagination params={params} setParams={setParams} />
+            <Pagination
+              params={params}
+              setParams={setParams}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </Wrapper>
         </>
       )}
