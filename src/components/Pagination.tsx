@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PageButton from "./PageButton";
 
 const Pagination = ({ params, paramsHandler }) => {
@@ -7,8 +7,6 @@ const Pagination = ({ params, paramsHandler }) => {
     { id: 2, name: 2, isActive: false },
     { id: 3, name: 3, isActive: false },
   ]);
-
-  console.log(paramsHandler);
 
   const activeHandler = (e: React.DOMAttributes<HTMLButtonElement>) => {
     setButtons((previousButtons) =>
@@ -32,8 +30,17 @@ const Pagination = ({ params, paramsHandler }) => {
 
   const nextPage = () => {
     if (params.page < buttons.length) {
-      paramsHandler((previousPage) => {
-        return { ...previousPage, page: previousPage.page + 1 };
+      paramsHandler((previousParams) => {
+        return { ...previousParams, page: previousParams.page + 1 };
+      });
+
+      setButtons((previousButtons) => {
+        return previousButtons.map((button, index) => {
+          return {
+            ...button,
+            isActive: index === params.page - 1 ? true : false,
+          };
+        });
       });
     }
   };

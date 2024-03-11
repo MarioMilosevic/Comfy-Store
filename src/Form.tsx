@@ -3,8 +3,7 @@ import Button from "./components/Button";
 import { useState } from "react";
 
 const SearchBar = ({ params, paramsHandler, categories, companies }) => {
-
-  // nesto ako je 
+  // nesto ako je
   const [search, setSearch] = useState(params);
 
   const priceHandler = (e) => {
@@ -18,7 +17,6 @@ const SearchBar = ({ params, paramsHandler, categories, companies }) => {
       return { ...prev, isChecked: !prev.isChecked };
     });
   };
-
 
   const productHandler = (e) => {
     setSearch((prev) => {
@@ -44,7 +42,26 @@ const SearchBar = ({ params, paramsHandler, categories, companies }) => {
     });
   };
 
-
+  const reset = () => {
+    paramsHandler({
+      search: "",
+      category: "all",
+      company: "all",
+      price: 100000,
+      isChecked: false,
+      sort: "a-z",
+      page: 1,
+    });
+    setSearch({
+      search: "",
+      category: "all",
+      company: "all",
+      price: 100000,
+      isChecked: false,
+      sort: "a-z",
+      page: 1,
+    });
+  };
 
   return (
     <section className="mt-20 mb-10  bg-indigo-100 p-6 rounded-lg">
@@ -136,10 +153,12 @@ const SearchBar = ({ params, paramsHandler, categories, companies }) => {
         <Button
           color={"bg-blue-600"}
           clickHandler={() => paramsHandler(search)}
-          >
+        >
           Search
         </Button>
-        <Button color={"bg-pink-600"}>Reset</Button>
+        <Button color={"bg-pink-600"} clickHandler={reset}>
+          Reset
+        </Button>
       </div>
     </section>
   );
