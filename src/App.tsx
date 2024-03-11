@@ -25,7 +25,6 @@ function App() {
     price: 100000,
     isChecked: false,
     sort: "a-z",
-    // page: 1,
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,19 +36,10 @@ function App() {
     price: string;
     isChecked: boolean;
     sort: string;
-    // page: number;
   };
 
   const urlHandler = (
-    {
-      search,
-      category,
-      company,
-      price,
-      isChecked,
-      sort,
-    }: // page,
-    UrlTypes,
+    { search, category, company, price, isChecked, sort }: UrlTypes,
     page
   ) => {
     const shipping = isChecked ? "shipping=on" : "";
@@ -95,7 +85,6 @@ function App() {
               setParams={setParams}
               categories={store.categories}
               companies={store.companies}
-              currentPage={currentPage}
               setCurrentPage={setCurrentPage}
             />
             <Products store={store} />

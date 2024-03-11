@@ -50,7 +50,6 @@ const Form = ({ setCurrentPage,params, setParams, categories, companies }) => {
       price: 100000,
       isChecked: false,
       sort: "a-z",
-      // page: 1,
     });
     setSearch({
       search: "",
@@ -59,7 +58,6 @@ const Form = ({ setCurrentPage,params, setParams, categories, companies }) => {
       price: 100000,
       isChecked: false,
       sort: "a-z",
-      // page: 1,
     });
     setCurrentPage(1)
   };
