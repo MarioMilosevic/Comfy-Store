@@ -100,7 +100,7 @@ function App() {
               </section>
             )}
             {store.totalProducts === 0 && <p>No products found</p>}
-            <Pagination params={params} paramsHandler={setParams} />
+            <Pagination params={params} setParams={setParams} />
           </Wrapper>
         </>
       )}

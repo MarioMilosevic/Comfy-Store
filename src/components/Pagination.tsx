@@ -1,54 +1,59 @@
 import { useState } from "react";
 import PageButton from "./PageButton";
 
-const Pagination = ({ params, paramsHandler }) => {
-  const [buttons, setButtons] = useState([
-    { id: 1, name: 1, isActive: true },
-    { id: 2, name: 2, isActive: false },
-    { id: 3, name: 3, isActive: false },
-  ]);
+const Pagination = ({ params, setParams }) => {
+  const [currentPage, setCurrentPage] = useState(params.page);
+  const buttons = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
-  const activeHandler = (e: React.DOMAttributes<HTMLButtonElement>) => {
-    setButtons((previousButtons) =>
-      previousButtons.map((button) => ({
-        ...button,
-        isActive: button.id === Number(e.target.id),
-      }))
-    );
-    paramsHandler((previousPage) => {
-      return { ...previousPage, page: Number(e.target.id) };
+  const setPage = (id) => {
+    setParams((prev) => {
+      return { ...prev, page: id };
     });
+    setCurrentPage(id);
   };
 
   const previousPage = () => {
     if (params.page > 1) {
-      paramsHandler((previousPage) => {
-        return { ...previousPage, page: previousPage.page - 1 };
-      });
+      setParams((prev) => {
+        return {...prev, page:currentPage}
+      })
     }
+    setCurrentPage((prev) => prev - 1)
   };
 
   const nextPage = () => {
-    if (params.page < buttons.length) {
-      paramsHandler((previousParams) => {
-        return { ...previousParams, page: previousParams.page + 1 };
-      });
-
-      setButtons((previousButtons) => {
-        return previousButtons.map((button, index) => {
-          return {
-            ...button,
-            isActive: index === params.page - 1 ? true : false,
-          };
-        });
+    if (currentPage < buttons.length){
+      setCurrentPage((prev) => prev + 1);
+      setParams((prev) => {
+        return { ...prev, page: currentPage };
       });
     }
   };
 
+  const activeButton = "bg-red-400";
+  const baseClass = "";
   return (
     <>
       <div className="flex justify-end my-10">
-        <PageButton activeHandler={previousPage}>PREV</PageButton>
+        <button onClick={previousPage}>Prev</button>
+        {buttons.map((button) => {
+          return (
+            <button
+              className={`${
+                button.id === currentPage ? activeButton : baseClass
+              }`}
+              onClick={() => setPage(button.id)}
+            >
+              {button.id}
+            </button>
+          );
+        })}
+
+        <button onClick={nextPage}>Next</button>
+
+        {/* <PageButton id={"Prev"} activeHandler={previousPage}>
+          PREV
+        </PageButton>
         {buttons.map((button) => {
           return (
             <PageButton
@@ -61,7 +66,9 @@ const Pagination = ({ params, paramsHandler }) => {
             </PageButton>
           );
         })}
-        <PageButton activeHandler={nextPage}>NEXT</PageButton>
+        <PageButton id={"Next"} activeHandler={nextPage}>
+          NEXT
+        </PageButton> */}
       </div>
     </>
   );
