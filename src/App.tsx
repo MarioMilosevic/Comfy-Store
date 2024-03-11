@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import SignIn from "./components/SignIn";
 import Wrapper from "./components/Wrapper";
 import Navigation from "./components/Navigation";
-import Form from "./Form";
+import Form from "./components/Form";
 import Product from "./components/Product";
 import LoadingSpinner from "./LoadingSpinner";
 import Pagination from "./components/Pagination";

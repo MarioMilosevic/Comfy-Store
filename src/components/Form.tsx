@@ -1,9 +1,8 @@
-import Select from "./components/Select";
-import Button from "./components/Button";
+import Select from "./Select";
+import Button from "./Button";
 import { useState } from "react";
 
-const SearchBar = ({ params, paramsHandler, categories, companies }) => {
-  // nesto ako je
+const SearchBar = ({ params, setParams, categories, companies }) => {
   const [search, setSearch] = useState(params);
 
   const priceHandler = (e) => {
@@ -43,7 +42,7 @@ const SearchBar = ({ params, paramsHandler, categories, companies }) => {
   };
 
   const reset = () => {
-    paramsHandler({
+    setParams({
       search: "",
       category: "all",
       company: "all",
@@ -152,7 +151,7 @@ const SearchBar = ({ params, paramsHandler, categories, companies }) => {
         </div>
         <Button
           color={"bg-blue-600"}
-          clickHandler={() => paramsHandler(search)}
+          clickHandler={() => setParams(search)}
         >
           Search
         </Button>
