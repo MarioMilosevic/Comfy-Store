@@ -29,6 +29,7 @@ function App() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
+
   type UrlTypes = {
     search: string;
     category: string;

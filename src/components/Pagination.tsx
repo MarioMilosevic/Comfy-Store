@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const Pagination = ({currentPage, setCurrentPage, params, setParams }) => {
+
   // const [currentPage, setCurrentPage] = useState(params.page);
   const buttons = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
@@ -10,6 +11,8 @@ const Pagination = ({currentPage, setCurrentPage, params, setParams }) => {
     });
     setCurrentPage(id);
   };
+
+  
 
   const previousPage = () => {
     if (currentPage > 1) {

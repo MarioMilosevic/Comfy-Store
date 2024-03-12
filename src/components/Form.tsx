@@ -50,7 +50,7 @@ const Form = ({ setCurrentPage,params, setParams, categories, companies }) => {
       price: 100000,
       isChecked: false,
       sort: "a-z",
-    });
+        });
     setSearch({
       search: "",
       category: "all",
